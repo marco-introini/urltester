@@ -1,5 +1,14 @@
 # URL Tester
 
+## Installation
+
+- clone the repository
+- create database
+- create a .env file 
+- run migrations: `php artisan migrate:fresh`
+- create a user with `php artisan make:filament-user`
+- update the user setting is_admin field to true
+
 
 
 ## Contributing
