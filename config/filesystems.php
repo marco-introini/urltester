@@ -36,6 +36,12 @@ return [
             'throw' => false,
         ],
 
+        'certificates' => [
+            'driver' => 'local',
+            'root' => storage_path('app/certificates'),
+            'throw' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
