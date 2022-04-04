@@ -9,6 +9,10 @@ class Url extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+      'headers' => 'json',
+    ];
+
     public function certificate(): HasOne
     {
         return $this->hasOne(Certificate::class);

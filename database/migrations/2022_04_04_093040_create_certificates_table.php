@@ -10,6 +10,7 @@ class CreateCertificatesTable extends Migration
     {
         Schema::create('certificates', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique();
             $table->string('private_key');
             $table->string('public-key');
             $table->string('ca_certificate');
