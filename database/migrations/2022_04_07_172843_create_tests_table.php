@@ -11,7 +11,7 @@ class CreateTestsTable extends Migration
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('url_id');
-            $table->foreign('url_id')->on('url')->references('id')->cascadeOnDelete();
+            $table->foreign('url_id')->on('urls')->references('id')->cascadeOnDelete();
             $table->text('request')->nullable();
             $table->dateTime('request_date')->nullable();
             $table->text('response')->nullable();
