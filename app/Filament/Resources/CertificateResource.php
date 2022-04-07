@@ -21,8 +21,27 @@ class CertificateResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+            ->columns(1)
             ->schema([
-
+                Forms\Components\TextInput::make('name')
+                    ->unique(ignorable: fn (?Certificate $record): ?Certificate => $record)
+                    ->required()
+                    ->label('Mnemonic name'),
+                Forms\Components\FileUpload::make('private_key')
+                    ->disk('certificates')
+                    ->directory('private')
+                    ->visibility('private')
+                    ->preserveFilenames(),
+                Forms\Components\FileUpload::make('public_key')
+                    ->disk('certificates')
+                    ->directory('public')
+                    ->visibility('private')
+                    ->preserveFilenames(),
+                Forms\Components\FileUpload::make('ca_certificate')
+                    ->disk('certificates')
+                    ->directory('ca')
+                    ->visibility('private')
+                    ->preserveFilenames(),
             ]);
     }
 
@@ -34,6 +53,13 @@ class CertificateResource extends Resource
             ])
             ->filters([
                 //
+            ])
+            ->pushActions([
+                Tables\Actions\LinkAction::make('delete')
+                    ->action(fn (Certificate $record) => $record->delete())
+                    ->requiresConfirmation()
+                    ->color('danger')
+                    ->label('Delete Certificate'),
             ]);
     }
 

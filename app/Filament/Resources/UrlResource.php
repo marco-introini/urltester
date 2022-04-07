@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UrlResource\Pages;
+use App\Models\Certificate;
 use App\Models\Url;
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -23,7 +24,7 @@ class UrlResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Forms\Components\TextInput::make('name')->unique()->required(),
+                Forms\Components\TextInput::make('name')->unique(ignorable: fn (?Url $record): ?Url => $record)->required(),
                 Forms\Components\TextInput::make('url')->url()->required(),
                 Forms\Components\Repeater::make('headers')->schema([
                     Forms\Components\TextInput::make('name')->required(),
@@ -31,6 +32,11 @@ class UrlResource extends Resource
                 ])->label('Header used to call the URL'),
                 Forms\Components\Textarea::make('request')->required()->label('Request to be sent to URL'),
                 Forms\Components\Textarea::make('expected_response')->nullable(),
+                Forms\Components\Select::make('certificate_id')
+                    ->label('Certificate (optional)')
+                    ->options(Certificate::all()->pluck('name','id'))
+                    ->searchable()
+                    ->nullable(),
             ]);
     }
 
@@ -39,10 +45,16 @@ class UrlResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-
+                Tables\Columns\BooleanColumn::make('certificate_id'),
             ])
             ->filters([
                 //
+            ])
+            ->pushActions([
+                Tables\Actions\LinkAction::make('delete')
+                    ->action(fn (Url $record) => $record->delete())
+                    ->requiresConfirmation()
+                    ->color('danger'),
             ]);
     }
 

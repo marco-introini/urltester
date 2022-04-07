@@ -12,8 +12,8 @@ class CreateCertificatesTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('private_key');
-            $table->string('public-key');
-            $table->string('ca_certificate');
+            $table->string('public_key');
+            $table->string('ca_certificate')->nullable();
             
             $table->timestamps();
         });
