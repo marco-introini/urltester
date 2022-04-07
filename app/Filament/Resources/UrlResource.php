@@ -24,17 +24,24 @@ class UrlResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Forms\Components\TextInput::make('name')->unique(ignorable: fn (?Url $record): ?Url => $record)->required(),
-                Forms\Components\TextInput::make('url')->url()->required(),
+                Forms\Components\TextInput::make('name')->unique(ignorable: fn(?Url $record): ?Url => $record
+                )->required(),
+                Forms\Components\TextInput::make('url')
+                    ->url()
+                    ->required(),
                 Forms\Components\Repeater::make('headers')->schema([
                     Forms\Components\TextInput::make('name')->required(),
                     Forms\Components\TextInput::make('value')->required(),
-                ])->label('Header used to call the URL'),
-                Forms\Components\Textarea::make('request')->required()->label('Request to be sent to URL'),
-                Forms\Components\Textarea::make('expected_response')->nullable(),
+                ])->label('Header used to call the URL')
+                    ->nullable(),
+                Forms\Components\Textarea::make('request')
+                    ->required()
+                    ->label('Request to be sent to URL'),
+                Forms\Components\Textarea::make('expected_response')
+                    ->nullable(),
                 Forms\Components\Select::make('certificate_id')
                     ->label('Certificate (optional)')
-                    ->options(Certificate::all()->pluck('name','id'))
+                    ->options(Certificate::all()->pluck('name', 'id'))
                     ->searchable()
                     ->nullable(),
             ]);
@@ -45,14 +52,22 @@ class UrlResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\BooleanColumn::make('certificate_id'),
+                Tables\Columns\TextColumn::make('certificate')
+                    ->getStateUsing(function (Url $record) {
+                        if (!is_null($record->certificate)) {
+                            return $record->certificate->name;
+                        }
+                            else {
+                                return "No Certificate Used";
+                            }
+                }),
             ])
             ->filters([
                 //
             ])
             ->pushActions([
                 Tables\Actions\LinkAction::make('delete')
-                    ->action(fn (Url $record) => $record->delete())
+                    ->action(fn(Url $record) => $record->delete())
                     ->requiresConfirmation()
                     ->color('danger'),
             ]);
@@ -73,4 +88,5 @@ class UrlResource extends Resource
             'edit' => Pages\EditUrl::route('/{record}/edit'),
         ];
     }
+
 }

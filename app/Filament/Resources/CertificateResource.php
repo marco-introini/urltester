@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CertificateResource\Pages;
 use App\Models\Certificate;
+use App\Models\Url;
 use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -49,7 +50,12 @@ class CertificateResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('urls')
+                    ->label('Used in Urls')
+                    ->getStateUsing(function (Certificate $record) {
+                            return Url::where('certificate_id','=',$record->id)->count();
+                    }),
             ])
             ->filters([
                 //
@@ -78,4 +84,5 @@ class CertificateResource extends Resource
             'edit' => Pages\EditCertificate::route('/{record}/edit'),
         ];
     }
+
 }

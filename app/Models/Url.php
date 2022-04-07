@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Url extends Model
 {
@@ -13,9 +13,9 @@ class Url extends Model
       'headers' => 'json',
     ];
 
-    public function certificate(): HasOne
+    public function certificate(): ?BelongsTo
     {
-        return $this->hasOne(Certificate::class);
+        return $this->belongsTo(Certificate::class);
     }
 
 }

@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Certificate extends Model
 {
     protected $guarded = [];
 
-    public function urls() : BelongsToMany
+    public function urls() : ?HasMany
     {
-        return $this->belongsToMany(Url::class);
+        return $this->hasMany(Url::class);
     }
 
 
