@@ -30,15 +30,22 @@ class TestResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('url.name'),
-                Tables\Columns\BadgeColumn::make('request_date')
-                    ->label('Request Timestamp'),
-                Tables\Columns\BadgeColumn::make('response_date')
-                    ->label('Response Timestamp'),
+                Tables\Columns\TextColumn::make('request_date')
+                    ->label('Request Timestamp')
+                    ->dateTime(),
+                Tables\Columns\TextColumn::make('response_date')
+                    ->label('Response Timestamp')
+                    ->dateTime()
+                    ->default('N/A'),
                 Tables\Columns\BadgeColumn::make('response_ok')
                     ->colors([
-                        'danger' => false,
-                        'success' => true,
+                        false => 'danger',
+                        true => 'success',
                         ])
+                    ->enum([
+                        false => "Failed",
+                        true => "Success",
+                    ])
                     ->label('Success'),
             ])
             ->filters([
@@ -59,6 +66,7 @@ class TestResource extends Resource
             'index' => Pages\ListTests::route('/'),
             'create' => Pages\CreateTest::route('/create'),
             'edit' => Pages\EditTest::route('/{record}/edit'),
+            'view' => Pages\ViewTest::route('/{record}'),
         ];
     }
 }

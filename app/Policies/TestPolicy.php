@@ -12,7 +12,7 @@ class TestPolicy
 
     public function __construct()
     {
-        //
+        return true;
     }
 
     public function viewAny(User $user): bool
