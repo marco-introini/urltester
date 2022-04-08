@@ -3,9 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TestResource\Pages;
-use App\Filament\Resources\TestResource\RelationManagers;
 use App\Models\Test;
-use Filament\Forms;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -32,6 +30,16 @@ class TestResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('url.name'),
+                Tables\Columns\BadgeColumn::make('request_date')
+                    ->label('Request Timestamp'),
+                Tables\Columns\BadgeColumn::make('response_date')
+                    ->label('Response Timestamp'),
+                Tables\Columns\BadgeColumn::make('response_ok')
+                    ->colors([
+                        'danger' => false,
+                        'success' => true,
+                        ])
+                    ->label('Success'),
             ])
             ->filters([
                 //
