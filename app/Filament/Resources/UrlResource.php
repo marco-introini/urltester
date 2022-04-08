@@ -15,7 +15,7 @@ class UrlResource extends Resource
 {
     protected static ?string $model = Url::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-globe';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
     protected static ?string $navigationLabel = 'Site Urls';
     protected static ?int $navigationSort = 1;
 
