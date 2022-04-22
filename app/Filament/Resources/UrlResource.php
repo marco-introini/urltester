@@ -36,9 +36,11 @@ class UrlResource extends Resource
                     ->nullable(),
                 Forms\Components\Textarea::make('request')
                     ->required()
-                    ->label('Request to be sent to URL'),
+                    ->label('Request to be sent to URL')
+                    ->rows(30),
                 Forms\Components\Textarea::make('expected_response')
-                    ->nullable(),
+                    ->nullable()
+                    ->rows(30),
                 Forms\Components\Select::make('certificate_id')
                     ->label('Certificate (optional)')
                     ->options(Certificate::all()->pluck('name', 'id'))
