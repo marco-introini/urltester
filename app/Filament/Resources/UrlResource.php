@@ -29,6 +29,11 @@ class UrlResource extends Resource
                 Forms\Components\TextInput::make('url')
                     ->url()
                     ->required(),
+                Forms\Components\Select::make('certificate_id')
+                    ->label('Certificates (optional)')
+                    ->options(Certificate::all()->pluck('name', 'id'))
+                    ->searchable()
+                    ->nullable(),
                 Forms\Components\Repeater::make('headers')->schema([
                     Forms\Components\TextInput::make('name')->required(),
                     Forms\Components\TextInput::make('value')->required(),
@@ -41,11 +46,6 @@ class UrlResource extends Resource
                 Forms\Components\Textarea::make('expected_response')
                     ->nullable()
                     ->rows(30),
-                Forms\Components\Select::make('certificate_id')
-                    ->label('Certificate (optional)')
-                    ->options(Certificate::all()->pluck('name', 'id'))
-                    ->searchable()
-                    ->nullable(),
             ]);
     }
 

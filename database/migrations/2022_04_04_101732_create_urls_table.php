@@ -15,6 +15,8 @@ class CreateUrlsTable extends Migration
             $table->json('headers')->nullable();
             $table->text('request');
             $table->text('expected_response')->nullable();
+
+            // authentication Certificate
             $table->foreignId('certificate_id')->nullable();
             $table->foreign('certificate_id')->on('certificates')->references('id')->nullOnDelete();
 
