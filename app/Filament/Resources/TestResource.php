@@ -15,7 +15,7 @@ class TestResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-trending-up';
     protected static ?string $navigationLabel = 'Test Results';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
     {
