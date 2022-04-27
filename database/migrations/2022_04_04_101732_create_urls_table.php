@@ -12,6 +12,7 @@ class CreateUrlsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('url');
+            $table->text('soap_action')->nullable();
             $table->json('headers')->nullable();
             $table->text('request');
             $table->text('expected_response')->nullable();

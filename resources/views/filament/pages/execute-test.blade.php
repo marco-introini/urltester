@@ -12,7 +12,9 @@
     </form>
 
     <div>
+
         {!! $output !!}
+
     </div>
 
 </x-filament::page>

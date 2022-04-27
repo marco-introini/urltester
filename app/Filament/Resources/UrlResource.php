@@ -29,6 +29,7 @@ class UrlResource extends Resource
                 Forms\Components\TextInput::make('url')
                     ->url()
                     ->required(),
+                Forms\Components\TextInput::make('soap_action'),
                 Forms\Components\Select::make('certificate_id')
                     ->label('Certificates (optional)')
                     ->options(Certificate::all()->pluck('name', 'id'))

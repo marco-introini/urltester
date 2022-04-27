@@ -1,5 +1,10 @@
 # URL Tester
 
+This Laravel project is written for people who want to test Soap Urls protected with x509 Certificates.
+I can be used to:
+- test on demand single or multiple urls
+- cron the test suites
+
 ## Installation
 
 - clone the repository
@@ -9,7 +14,9 @@
 - create a user with `php artisan make:filament-user`
 - update the user setting is_admin field to true
 
+## ToDos
 
+This will be improved for creating test also for REST APIs
 
 ## Contributing
 

@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Url;
+use App\Services\TesterService;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
@@ -22,18 +23,20 @@ class ExecuteTest extends Page
 
     public function submit(Request $request)
     {
-        ray($request);
-        ray()->showQueries();
-
         $url = Url::find($this->url);
-        ray($url);
 
         if (is_null($url)) {
-            ray("url is null. this is ".$this->url);
+            ray("url is null");
+            $this->output = "Please select an URL";
             return;
         }
 
-        $this->output = "Executing ".$url->name."<br><br>test";
+        $this->output = "Executing ".$url->name."<br><br>";
+
+        $testerService = new TesterService($url);
+
+        $this->output .= htmlEntities(nl2br($testerService->executeTest()));
+        ray($this->output);
     }
 
     protected function getFormSchema(): array
