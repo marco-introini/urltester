@@ -6,6 +6,7 @@ use App\Models\Url;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
+use Illuminate\Http\Request;
 
 class ExecuteTest extends Page
 {
@@ -19,11 +20,20 @@ class ExecuteTest extends Page
 
     public $output;
 
-    public function submit()
+    public function submit(Request $request)
     {
-        $this->form->getState();
+        ray($request);
+        ray()->showQueries();
 
-        ray('url',$this->url);
+        $url = Url::find($this->url);
+        ray($url);
+
+        if (is_null($url)) {
+            ray("url is null. this is ".$this->url);
+            return;
+        }
+
+        $this->output = "Executing ".$url->name."<br><br>test";
     }
 
     protected function getFormSchema(): array
@@ -32,8 +42,9 @@ class ExecuteTest extends Page
             Section::make('Select URL')
                 ->columns(1)
                 ->schema([
-                   Select::make('url')
+                    Select::make('url')
                         ->label('Url')
+                        ->name('url')
                         ->options(Url::all()->pluck('name', 'id'))
                         ->searchable(),
                 ]),
