@@ -58,7 +58,6 @@ class TesterService
         //curl_setopt($this->curlHandle, CURLOPT_SSLCERTPASSWD, "");
 
         // to disable CA verification
-        curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, false);
     }
 
