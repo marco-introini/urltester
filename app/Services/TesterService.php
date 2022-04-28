@@ -55,11 +55,11 @@ class TesterService
             Storage::disk('certificates')->path($this->url->certificate->public_key)
         );
         // use this for Password protected private Key
-        //curl_setopt($this->>curlHandle, CURLOPT_SSLCERTPASSWD, "");
+        //curl_setopt($this->curlHandle, CURLOPT_SSLCERTPASSWD, "");
 
         // to disable CA verification
-        //curl_setopt($this->>curlHandle, CURLOPT_SSL_VERIFYHOST, 0);
-        //curl_setopt($this->>curlHandle, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, false);
     }
 
     public function executeTest(): string
