@@ -11,10 +11,10 @@
         </div>
     </form>
 
-    <div>
-
+    <code class="block whitespace-pre overflow-x-scroll">
+<pre class="p-3">
         {!! $output !!}
-
-    </div>
+</pre>
+    </code>
 
 </x-filament::page>

@@ -35,8 +35,8 @@ class ExecuteTest extends Page
 
         $testerService = new TesterService($url);
 
-        $this->output .= htmlEntities(nl2br($testerService->executeTest()));
-        ray($this->output);
+        $this->output .= htmlentities($testerService->executeTest());
+
     }
 
     protected function getFormSchema(): array

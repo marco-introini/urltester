@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Test;
 use App\Models\Url;
 use CurlHandle;
 use DOMDocument;
@@ -10,6 +11,9 @@ use Illuminate\Support\Facades\Storage;
 class TesterService
 {
     private CurlHandle $curlHandle;
+    private string $response;
+    private string $beginTime;
+    private string $endTime;
 
     public function __construct(
         public Url $url
@@ -81,7 +85,9 @@ class TesterService
         curl_setopt($this->curlHandle, CURLOPT_POST, true);
         curl_setopt($this->curlHandle, CURLOPT_POSTFIELDS, $this->url->request);
 
+        $this->beginTime = now();
         $result = curl_exec($this->curlHandle);
+        $this->endTime = now();
 
         curl_close($this->curlHandle);
 
@@ -96,6 +102,29 @@ class TesterService
         $dom->preserveWhiteSpace = true;
         $dom->formatOutput = true;
         $dom->loadXML($result);
-        return $dom->saveXML();
+        $this->response = $dom->saveXML();
+
+        $this->saveTestResult();
+
+        return $this->response;
     }
+
+    private function saveTestResult(): void {
+
+        $success = false;
+        if ($this->response == $this->url->expected_response) {
+            $success = true;
+        }
+
+        Test::create([
+            'url_id' => $this->url->id,
+            'request' => $this->url->request,
+            'request_date' => $this->beginTime,
+            'response' => $this->response,
+            'response_date' => $this->endTime,
+            'response_time' => curl_getinfo($this->curlHandle,CURLINFO_TOTAL_TIME_T),
+            'response_ok' => $success,
+        ]);
+    }
+
 }
