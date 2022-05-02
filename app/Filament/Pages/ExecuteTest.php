@@ -26,7 +26,6 @@ class ExecuteTest extends Page
         $url = Url::find($this->url);
 
         if (is_null($url)) {
-            ray("url is null");
             $this->output = "Please select an URL";
             return;
         }

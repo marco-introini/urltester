@@ -18,6 +18,7 @@ class CreateTestsTable extends Migration
             $table->timestamp('response_date')->nullable();
             $table->bigInteger('response_time')->nullable();
             $table->boolean('response_ok')->default(true);
+            $table->text('curl_info')->nullable();
 
             $table->timestamps();
         });

@@ -29,18 +29,22 @@ class TestResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('url.name'),
+                Tables\Columns\TextColumn::make('url.name')
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('request_date')
                     ->label('Request Timestamp')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('response_date')
                     ->label('Response Timestamp')
                     ->dateTime()
+                    ->sortable()
                     ->default('N/A'),
                 Tables\Columns\BadgeColumn::make('response_ok')
                     ->colors([
-                        false => 'danger',
-                        true => 'success',
+                        'danger' => 0,
+                        'success' => 1,
                         ])
                     ->enum([
                         false => "Failed",

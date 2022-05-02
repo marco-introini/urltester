@@ -66,7 +66,9 @@ class TesterService
         $this->curlHandle = curl_init();
 
         $this->setGenericCurlOptions();
-        $this->setCertificates();
+        if ($this->url->useCertificates()) {
+            $this->setCertificates();
+        }
 
         // header
         $headers = array(
@@ -94,7 +96,9 @@ class TesterService
         ray("CURL object", $this->curlHandle)->red();
 
         if (!$result) {
-            return curl_error($this->curlHandle);
+            $this->response = curl_error($this->curlHandle);
+            $this->saveTestResult();
+            return $this->response;
         }
 
         $dom = new DOMDocument('1.0');
@@ -106,6 +110,20 @@ class TesterService
         $this->saveTestResult();
 
         return $this->response;
+    }
+
+    private function getCurlInfo():string
+    {
+        $version = curl_version();
+        extract(curl_getinfo($this->curlHandle));
+        return <<<EOD
+URL....: $this->url->url
+Code...: $http_code ($redirect_count redirect(s) in $redirect_time secs)
+Content: $content_type Size: $download_content_length (Own: $size_download) Filetime: $filetime
+Time...: $total_time Start @ $starttransfer_time (DNS: $namelookup_time Connect: $connect_time Request: $pretransfer_time)
+Speed..: Down: $speed_download (avg.) Up: $speed_upload (avg.)
+Curl...: v{$version['version']}
+EOD;
     }
 
     private function saveTestResult(): void {
@@ -123,6 +141,7 @@ class TesterService
             'response_date' => $this->endTime,
             'response_time' => curl_getinfo($this->curlHandle,CURLINFO_TOTAL_TIME_T),
             'response_ok' => $success,
+            'curl_info' => $this->getCurlInfo(),
         ]);
     }
 
