@@ -15,6 +15,7 @@ class CreateTestsTable extends Migration
             $table->text('request')->nullable();
             $table->timestamp('request_date')->nullable();
             $table->text('response')->nullable();
+            $table->boolean('expected_response')->nullable();
             $table->timestamp('response_date')->nullable();
             $table->bigInteger('response_time')->nullable();
             $table->boolean('response_ok')->default(true);

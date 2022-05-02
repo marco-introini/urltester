@@ -54,7 +54,8 @@ class TestResource extends Resource
             ])
             ->filters([
                 //
-            ]);
+            ])
+            ->defaultSort('request_date','desc');
     }
 
     public static function getRelations(): array
