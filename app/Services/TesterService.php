@@ -126,13 +126,12 @@ Curl...: v{$version['version']}
 EOD;
     }
 
+    private function checkSuccess(): bool
+    {
+        return str_contains($this->response, $this->url->expected_response);
+    }
+
     private function saveTestResult(): void {
-
-        $success = false;
-        if ($this->response == $this->url->expected_response) {
-            $success = true;
-        }
-
         Test::create([
             'url_id' => $this->url->id,
             'request' => $this->url->request,
@@ -140,7 +139,7 @@ EOD;
             'response' => $this->response,
             'response_date' => $this->endTime,
             'response_time' => curl_getinfo($this->curlHandle,CURLINFO_TOTAL_TIME_T),
-            'response_ok' => $success,
+            'response_ok' => $this->checkSuccess(),
             'curl_info' => $this->getCurlInfo(),
         ]);
     }

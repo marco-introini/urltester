@@ -31,7 +31,7 @@ class UrlResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('soap_action'),
                 Forms\Components\Select::make('certificate_id')
-                    ->label('Certificates (optional)')
+                    ->label('Certificates')
                     ->options(Certificate::all()->pluck('name', 'id'))
                     ->searchable()
                     ->nullable(),
@@ -39,14 +39,16 @@ class UrlResource extends Resource
                     Forms\Components\TextInput::make('name')->required(),
                     Forms\Components\TextInput::make('value')->required(),
                 ])->label('Header used to call the URL')
-                    ->nullable(),
+                    ->nullable()
+                    ->default(null),
                 Forms\Components\Textarea::make('request')
                     ->required()
                     ->label('Request to be sent to URL')
                     ->rows(30),
                 Forms\Components\Textarea::make('expected_response')
                     ->nullable()
-                    ->rows(30),
+                    ->rows(30)
+                    ->label("Expected Response (will be checked as substring)"),
             ]);
     }
 
