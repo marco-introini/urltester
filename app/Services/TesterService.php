@@ -117,7 +117,6 @@ class TesterService
         $version = curl_version();
         extract(curl_getinfo($this->curlHandle));
         return <<<EOD
-URL....: $this->url->url
 Code...: $http_code ($redirect_count redirect(s) in $redirect_time secs)
 Content: $content_type Size: $download_content_length (Own: $size_download) Filetime: $filetime
 Time...: $total_time Start @ $starttransfer_time (DNS: $namelookup_time Connect: $connect_time Request: $pretransfer_time)
@@ -141,6 +140,7 @@ EOD;
             'response_time' => curl_getinfo($this->curlHandle,CURLINFO_TOTAL_TIME_T),
             'response_ok' => $this->checkSuccess(),
             'curl_info' => $this->getCurlInfo(),
+            'called_url' => $this->url->url,
         ]);
     }
 

@@ -13,7 +13,7 @@
 
     <code class="block whitespace-pre overflow-x-scroll">
 <pre class="p-3">
-        {!! $output !!}
+{!! $output !!}
 </pre>
     </code>
 

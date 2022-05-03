@@ -12,6 +12,7 @@ class CreateTestsTable extends Migration
             $table->id();
             $table->foreignId('url_id');
             $table->foreign('url_id')->on('urls')->references('id')->cascadeOnDelete();
+            $table->string('called_url');
             $table->text('request')->nullable();
             $table->timestamp('request_date')->nullable();
             $table->text('response')->nullable();

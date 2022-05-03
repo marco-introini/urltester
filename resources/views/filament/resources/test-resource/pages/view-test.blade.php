@@ -2,9 +2,9 @@
 
     <div class="grid grid-cols-1 gap-2">
 
-        <div class="text-xl font-bold pt-2">Url Name: {{(new App\Models\Url)->find($data['url_id'])->name}}</div>
+        <div class="text-xl font-bold pt-2">Name: {{(new App\Models\Url)->find($data['url_id'])->name}}</div>
 
-        <div class="text-xl font-bold pt-2">Url URI: {{(new App\Models\Url)->find($data['url_id'])->url}}</div>
+        <div class="text-xl font-bold pt-2">URI: {{$data['called_url']}}</div>
 
         <div class="text-xl font-bold pt-2">Status: {{$data['response_ok'] ? 'OK' : "FAILED"}}</div>
         <div class="text-xl font-bold pt-2">Response Time</div>
@@ -38,7 +38,5 @@
             </pre>
         </code>
     </div>
-
-
 
 </x-filament::page>
