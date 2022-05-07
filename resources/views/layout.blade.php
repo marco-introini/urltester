@@ -24,7 +24,7 @@
 </head>
 
 
-<body class="container p-6">
+<body class="container p-6 mx-auto">
 
 @yield('contenuto-pagina')
 
