@@ -16,7 +16,9 @@ I can be used to:
 
 ## ToDos
 
-This will be improved for creating test also for REST APIs
+- add support for REST APIs
+- add cron jobs
+- bugfixes for certificates' issues
 
 ## Contributing
 
