@@ -9,6 +9,10 @@ class Test extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'certificates_used' => 'json',
+    ];
+
     public function url(): ?BelongsTo
     {
         return $this->belongsTo(Url::class);
