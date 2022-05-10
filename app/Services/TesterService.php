@@ -130,7 +130,7 @@ Curl...: v{$version['version']}
 EOD;
 
         $this->requestHeaders = $request_header;
-        $this->certificates = json_encode($certinfo);;
+        $this->certificates = json_encode($certinfo);
         $this->saveTestResult();
 
         return $this->response;

@@ -39,4 +39,22 @@
         </code>
     </div>
 
+    <div class="text-xl font-bold">Request Headers</div>
+    <div class="bg-gray-400 w-full">
+        <code class="block whitespace-pre overflow-x-scroll">
+            <pre class="p-3">
+{{$data['request_headers']}}
+            </pre>
+        </code>
+    </div>
+
+    <div class="text-xl font-bold">Request Certificates</div>
+    <div class="bg-gray-400 w-full">
+        <code class="block whitespace-pre overflow-x-scroll">
+            <pre class="p-3">
+{{json_encode(json_decode($data['certificates_used']), JSON_PRETTY_PRINT)}}
+            </pre>
+        </code>
+    </div>
+
 </x-filament::page>
