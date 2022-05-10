@@ -153,6 +153,7 @@ EOD;
             'response_ok' => $this->checkSuccess(),
             'curl_info' => $this->curlInfo,
             'called_url' => $this->url->url,
+            'expected_response' => $this->url->expected_response,
             'certificates_used' => $this->certificates,
             'request_headers' => $this->requestHeaders,
         ]);
