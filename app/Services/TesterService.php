@@ -20,7 +20,8 @@ class TesterService
     ) {
     }
 
-    private function setGenericCurlOptions(): void{
+    private function setGenericCurlOptions(): void
+    {
         curl_setopt($this->curlHandle, CURLOPT_URL, $this->url->url);
         curl_setopt($this->curlHandle, CURLOPT_RETURNTRANSFER, true);
 
@@ -35,27 +36,31 @@ class TesterService
 
     private function setCertificates(): void
     {
-        // certificato di wsdev
-        curl_setopt(
-            $this->curlHandle,
-            CURLOPT_CAINFO,
-            Storage::disk('certificates')->path($this->url->certificate->ca_certificate)
-        );
-        curl_setopt($this->curlHandle, CURLOPT_CERTINFO, true);
+        // CA Certificate
+        if (!is_null($this->url->certificate->ca_certificate)) {
+            curl_setopt(
+                $this->curlHandle,
+                CURLOPT_CAINFO,
+                Storage::disk('certificates')->path($this->url->certificate->ca_certificate)
+            );
+            curl_setopt($this->curlHandle, CURLOPT_CERTINFO, true);
+        }
 
-        // chiavi di autenticazione
-        curl_setopt(
-            $this->curlHandle,
-            CURLOPT_SSLKEY,
-            Storage::disk('certificates')->path($this->url->certificate->private_key)
-        );
-        curl_setopt(
-            $this->curlHandle,
-            CURLOPT_SSLCERT,
-            Storage::disk('certificates')->path($this->url->certificate->public_key)
-        );
-        // use this for Password protected private Key
-        //curl_setopt($this->curlHandle, CURLOPT_SSLCERTPASSWD, "");
+        // Authentication keys (must be provided both public and private key
+        if (!is_null($this->url->certificate->private_key) && !is_null($this->url->certificate->public_key)) {
+            curl_setopt(
+                $this->curlHandle,
+                CURLOPT_SSLKEY,
+                Storage::disk('certificates')->path($this->url->certificate->private_key)
+            );
+            curl_setopt(
+                $this->curlHandle,
+                CURLOPT_SSLCERT,
+                Storage::disk('certificates')->path($this->url->certificate->public_key)
+            );
+            // use this for Password protected private Key
+            //curl_setopt($this->curlHandle, CURLOPT_SSLCERTPASSWD, "");
+        }
 
         // to disable CA verification
         curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, false);
@@ -112,7 +117,7 @@ class TesterService
         return $this->response;
     }
 
-    private function getCurlInfo():string
+    private function getCurlInfo(): string
     {
         $version = curl_version();
         extract(curl_getinfo($this->curlHandle));
@@ -130,14 +135,15 @@ EOD;
         return str_contains($this->response, $this->url->expected_response);
     }
 
-    private function saveTestResult(): void {
+    private function saveTestResult(): void
+    {
         Test::create([
             'url_id' => $this->url->id,
             'request' => $this->url->request,
             'request_date' => $this->beginTime,
             'response' => $this->response,
             'response_date' => $this->endTime,
-            'response_time' => curl_getinfo($this->curlHandle,CURLINFO_TOTAL_TIME_T),
+            'response_time' => curl_getinfo($this->curlHandle, CURLINFO_TOTAL_TIME_T),
             'response_ok' => $this->checkSuccess(),
             'curl_info' => $this->getCurlInfo(),
             'called_url' => $this->url->url,
