@@ -43,11 +43,9 @@ class UrlResource extends Resource
                     ->default(null),
                 Forms\Components\Textarea::make('request')
                     ->required()
-                    ->label('Request to be sent to URL')
-                    ->rows(30),
+                    ->label('Request to be sent to URL'),
                 Forms\Components\Textarea::make('expected_response')
                     ->nullable()
-                    ->rows(30)
                     ->label("Expected Response (will be checked as substring)"),
             ]);
     }
