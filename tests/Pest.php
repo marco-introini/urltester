@@ -11,6 +11,10 @@
 |
 */
 
+use App\Models\User;
+
+use function Pest\Laravel\actingAs;
+
 uses(Tests\TestCase::class)->in('Feature');
 
 /*
@@ -42,4 +46,9 @@ expect()->extend('toBeOne', function () {
 function something()
 {
     // ..
+}
+
+function login(User $user = null): void
+{
+    actingAs($user ?? User::factory()->create());
 }
