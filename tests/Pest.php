@@ -12,10 +12,12 @@
 */
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Pest\Laravel\actingAs;
 
 uses(Tests\TestCase::class)->in('Feature');
+uses(RefreshDatabase::class)->in('Feature');
 
 /*
 |--------------------------------------------------------------------------

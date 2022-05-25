@@ -1,10 +1,8 @@
 <?php
 
-it('has public page', function () {
-    $response = $this->get('/');
-
-    $response->assertStatus(200);
-});
+it('has public page')
+    ->get('/')
+    ->assertOk();
 
 it('has GitHub link')
     ->get('/')
