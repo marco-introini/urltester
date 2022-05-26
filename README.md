@@ -26,6 +26,14 @@ It uses the cURL functions in PHP.
 - execute `npm install`
 - execute `npm run production`
 
+## Command Line
+
+If you want to execute all the tests inside the database (url table) simply execute the artisan command
+
+```
+php artisan urltester:execute
+```
+
 ## Test
 
 ```

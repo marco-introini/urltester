@@ -1,6 +1,6 @@
 <?php
 
-use App\Services\TesterService;
+use App\Services\UrlTester;
 use App\Models\Url;
 
 test('Tester is OK', function () {
@@ -10,6 +10,6 @@ test('Tester is OK', function () {
         'url' => 'http://www.thomas-bayer.com/axis2/services/BLZService',
         'request' => 'WRONG SOAP'
     ]);
-    $testerService = new TesterService($url );
+    $testerService = new UrlTester($url );
 
 });

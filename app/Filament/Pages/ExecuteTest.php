@@ -3,7 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Url;
-use App\Services\TesterService;
+use App\Services\UrlTester;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
@@ -32,7 +32,7 @@ class ExecuteTest extends Page
 
         $this->output = "Executing ".$url->name."<br><br>";
 
-        $testerService = new TesterService($url);
+        $testerService = new UrlTester($url);
 
         $this->output .= htmlentities($testerService->executeTest());
 

@@ -8,7 +8,7 @@ use CurlHandle;
 use DOMDocument;
 use Illuminate\Support\Facades\Storage;
 
-class TesterService
+class UrlTester
 {
     private CurlHandle $curlHandle;
     private string $response;
