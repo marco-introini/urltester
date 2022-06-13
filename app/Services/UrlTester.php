@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enum\MethodEnum;
+use App\Enum\ServiceTypeEnum;
 use App\Models\Test;
 use App\Models\Url;
 use CurlHandle;
@@ -84,22 +85,26 @@ class UrlTester
 
         // default headers
         $headers = array(
-            "Content-type: text/xml;charset=\"utf-8\"",
-            "Accept: text/xml",
             "Cache-Control: no-cache",
             "Pragma: no-cache",
             "Content-length: ".strlen($this->url->request),
         );
 
-
-
-        if (!is_null($this->url->soap_action)) {
-            $headers[] = "SOAPAction: ".$this->url->soap_action;
+        if ($this->url->service_type == ServiceTypeEnum::SOAP) {
+            $headers[] = "Content-type: text/xml;charset=\"utf-8\"";
+            $headers[] = "Accept: text/xml";
+            if (!is_null($this->url->soap_action)) {
+                $headers[] = "SOAPAction: ".$this->url->soap_action;
+            }
+        }
+        if ($this->url->service_type == ServiceTypeEnum::REST) {
+            $headers[] = "Content-type: application/json;charset=\"utf-8\"";
+            $headers[] = "Accept: application/json";
         }
 
         curl_setopt($this->curlHandle, CURLOPT_HTTPHEADER, $headers);
 
-        if ($this->url->method != MethodEnum::POST->value ) {
+        if ($this->url->method != MethodEnum::POST ) {
             curl_setopt($this->curlHandle, CURLOPT_CUSTOMREQUEST, $this->url->method->value);
         }
         else
@@ -124,11 +129,16 @@ class UrlTester
 
         ray("Result form calling URL", $result);
 
-        $dom = new DOMDocument('1.0');
-        $dom->preserveWhiteSpace = true;
-        $dom->formatOutput = true;
-        $dom->loadXML($result);
-        $this->response = $dom->saveXML();
+        if ($this->url->service_type == ServiceTypeEnum::SOAP) {
+            $dom = new DOMDocument('1.0');
+            $dom->preserveWhiteSpace = true;
+            $dom->formatOutput = true;
+            $dom->loadXML($result);
+            $this->response = $dom->saveXML();
+        }
+        else {
+            $this->response = json_encode(json_decode($result),JSON_PRETTY_PRINT);
+        }
 
         $version = curl_version();
         extract(curl_getinfo($this->curlHandle));
