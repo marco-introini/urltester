@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use App\Enum\MethodEnum;
+use App\Enum\ServiceTypeEnum;
 use App\Filament\Resources\UrlResource\Pages;
 use App\Models\Certificate;
 use App\Models\Url;
@@ -28,6 +30,16 @@ class UrlResource extends Resource
                 )->required(),
                 Forms\Components\TextInput::make('url')
                     ->url()
+                    ->required(),
+                Forms\Components\Select::make('service_type')
+                    ->label('Service Type')
+                    ->options(ServiceTypeEnum::class)
+                    ->default(ServiceTypeEnum::SOAP)
+                    ->required(),
+                Forms\Components\Select::make('method')
+                    ->label('Method')
+                    ->options(MethodEnum::class)
+                    ->default(MethodEnum::POST)
                     ->required(),
                 Forms\Components\TextInput::make('soap_action'),
                 Forms\Components\Select::make('certificate_id')

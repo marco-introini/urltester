@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Enum\MethodEnum;
 use App\Models\Test;
 use App\Models\Url;
 use CurlHandle;
 use DOMDocument;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rules\Enum;
 
 class UrlTester
 {
@@ -89,14 +91,21 @@ class UrlTester
             "Content-length: ".strlen($this->url->request),
         );
 
+
+
         if (!is_null($this->url->soap_action)) {
             $headers[] = "SOAPAction: ".$this->url->soap_action;
         }
 
         curl_setopt($this->curlHandle, CURLOPT_HTTPHEADER, $headers);
 
-        // inject the Soap Envelope
-        curl_setopt($this->curlHandle, CURLOPT_POST, true);
+        if ($this->url->method != MethodEnum::POST->value ) {
+            curl_setopt($this->curlHandle, CURLOPT_CUSTOMREQUEST, $this->url->method->value);
+        }
+        else
+        {
+            curl_setopt($this->curlHandle, CURLOPT_POST, true);
+        }
         curl_setopt($this->curlHandle, CURLOPT_POSTFIELDS, $this->url->request);
 
         $this->beginTime = now();
@@ -112,6 +121,8 @@ class UrlTester
             $this->saveTestResult();
             return $this->response;
         }
+
+        ray("Result form calling URL", $result);
 
         $dom = new DOMDocument('1.0');
         $dom->preserveWhiteSpace = true;
