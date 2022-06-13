@@ -1,10 +1,9 @@
-recreate:
+recreate: database-backup
 	clear
-	@echo "Recreation is not recommended for this project"
 	rm -f storage/app/certificates/ca/*
-	# rm -f storage/app/certificates/private/*
-	# rm -f storage/app/certificates/public/*
-	#php artisan migrate:fresh --seed
+	rm -f storage/app/certificates/private/*
+	rm -f storage/app/certificates/public/*
+	php artisan migrate:fresh --seed
 
 check:
 	clear
@@ -20,3 +19,9 @@ deploy:
 
 execute:
 	php artisan urltester:execute
+
+database-backup:
+	/Users/Shared/DBngin/mysql/8.0.27/bin/mysqldump -uroot -S /tmp/mysql_3306.sock urltester > database_backup.sql
+
+database-restore:
+	/Users/Shared/DBngin/mysql/8.0.27/bin/mysql -uroot -S /tmp/mysql_3306.sock urltester < database_backup.sql

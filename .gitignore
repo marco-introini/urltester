@@ -20,3 +20,7 @@ yarn-error.log
 /public/js
 /public/mix-manifest.json
 /ray.php
+
+database_backup.sql
+
+

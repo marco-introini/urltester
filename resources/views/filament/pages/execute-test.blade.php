@@ -11,6 +11,25 @@
         </div>
     </form>
 
+    <div class="text-xl">
+        @php
+            if (!is_null( $testName )) {
+                echo $testName;
+            }
+        @endphp
+    </div>
+
+    <div>
+        @php
+            if (is_null( $status )) {
+                echo "...";
+            }
+            else {
+                echo  $status ? "SUCCESS" : "FAILED";
+            }
+        @endphp
+    </div>
+
     <code class="block whitespace-pre overflow-x-scroll">
 <pre class="p-3">
 {!! $output !!}

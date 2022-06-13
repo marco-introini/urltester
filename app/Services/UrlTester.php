@@ -9,7 +9,6 @@ use App\Models\Url;
 use CurlHandle;
 use DOMDocument;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rules\Enum;
 
 class UrlTester
 {

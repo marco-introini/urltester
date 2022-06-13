@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Test;
 use App\Models\Url;
 use App\Services\UrlTester;
 use Filament\Forms\Components\Section;
@@ -21,6 +22,10 @@ class ExecuteTest extends Page
 
     public $output;
 
+    public $status;
+
+    public $testName;
+
     public function submit(Request $request)
     {
         $url = Url::find($this->url);
@@ -30,11 +35,13 @@ class ExecuteTest extends Page
             return;
         }
 
-        $this->output = "Executing ".$url->name."<br><br>";
+        $this->testName = $url->name;
 
         $testerService = new UrlTester($url);
 
-        $this->output .= htmlentities($testerService->executeTest());
+        $this->output = htmlentities($testerService->executeTest());
+
+        $this->status = Test::latest('id')->first()->response_ok;
 
     }
 

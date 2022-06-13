@@ -67,6 +67,7 @@ class UrlResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
+                Tables\Columns\TextColumn::make('service_type'),
                 Tables\Columns\TextColumn::make('certificate')
                     ->getStateUsing(function (Url $record) {
                         if (!is_null($record->certificate)) {
