@@ -24,6 +24,6 @@ test('Example Url is Created', function ()  {
 test('Example Url Called and AxisFault returned', function () {
     $tester = new UrlTester(Url::whereId(1)->first());
     $response = $tester->executeTest();
-    ray ($response);
+    //ray ($response);
     expect($response)->toContain("org.apache.axis2.AxisFault");
 });
