@@ -21,10 +21,7 @@
 
     <div>
         @php
-            if (is_null( $status )) {
-                echo "...";
-            }
-            else {
+            if (!is_null( $status )) {
                 echo  $status ? "SUCCESS" : "FAILED";
             }
         @endphp
