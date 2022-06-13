@@ -17,7 +17,9 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\actingAs;
 
 uses(Tests\TestCase::class)->in('Feature');
+uses(Tests\TestCase::class)->in('Unit');
 uses(RefreshDatabase::class)->in('Feature');
+uses(RefreshDatabase::class)->in('Unit');
 
 /*
 |--------------------------------------------------------------------------
