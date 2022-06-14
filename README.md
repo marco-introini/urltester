@@ -1,6 +1,6 @@
 # URL Tester
 
-This Laravel/Filament project is written for people who want to test Soap Urls protected with x509 Certificates.
+This Laravel/Filament project is written for people who want to test Soap and Rest services protected with x509 Certificates.
 It can be used to:
 - test on demand single or multiple urls
 - execute the tests via console
@@ -25,6 +25,19 @@ It uses the cURL functions in PHP.
 - execute `composer install`
 - execute `npm install`
 - execute `npm run production`
+- modify the Makefile according to your needs
+
+## Usage
+
+Simply login into admin area. 
+
+Add every x509 certificate you need:
+
+![Edit Certificate](img_certificates.png)
+
+Then define every endpoint you need to test:
+
+![Url Creation](img_url_creation.png)
 
 ## Command Line
 
@@ -42,7 +55,6 @@ php artisan urltester:execute
 
 ## ToDos
 
-- add support for REST APIs
 - add cron jobs
 
 ## Credits
@@ -52,7 +64,7 @@ php artisan urltester:execute
 
 ## Contributing
 
-Thank you for considering contributing to URL Tester!
+Thank you for considering contributing to URL Tester! Please contact me via GitHub.
 
 ## License
 

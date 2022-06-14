@@ -22,6 +22,7 @@
     <div>
         @php
             if (!is_null( $status )) {
+                echo "EXECUTION STATUS: ";
                 echo  $status ? "SUCCESS" : "FAILED";
             }
         @endphp
