@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := check
+
 recreate: database-backup
 	clear
 	rm -f storage/app/certificates/ca/*
@@ -19,6 +21,12 @@ deploy:
 
 execute:
 	php artisan urltester:execute
+
+clean:
+	rm -f database_backup.sql
+	php artisan config:clear
+	php artisan route:clear
+	php artisan view:clear
 
 database-backup:
 	/Users/Shared/DBngin/mysql/8.0.27/bin/mysqldump -uroot -S /tmp/mysql_3306.sock urltester > database_backup.sql
