@@ -30,7 +30,6 @@ class Url extends Model
 
     public function useCertificates(): bool
     {
-        return !is_null($this->certificate_id);
+        return ! is_null($this->certificate_id);
     }
-
 }

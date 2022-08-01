@@ -14,7 +14,7 @@ class CreateCertificatesTable extends Migration
             $table->string('private_key')->nullable();
             $table->string('public_key')->nullable();
             $table->string('ca_certificate')->nullable();
-            
+
             $table->timestamps();
         });
     }
@@ -23,5 +23,4 @@ class CreateCertificatesTable extends Migration
     {
         Schema::dropIfExists('certificates');
     }
-
 }

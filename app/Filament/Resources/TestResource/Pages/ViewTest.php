@@ -10,6 +10,4 @@ class ViewTest extends ViewRecord
     protected static string $resource = TestResource::class;
 
     protected static string $view = 'filament.resources.test-resource.pages.view-test';
-
-
 }

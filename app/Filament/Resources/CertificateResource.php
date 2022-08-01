@@ -16,7 +16,9 @@ class CertificateResource extends Resource
     protected static ?string $model = Certificate::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+
     protected static ?string $navigationLabel = 'Personal and CA Certificates';
+
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -54,7 +56,7 @@ class CertificateResource extends Resource
                 Tables\Columns\TextColumn::make('urls')
                     ->label('Used in Urls')
                     ->getStateUsing(function (Certificate $record) {
-                            return Url::where('certificate_id','=',$record->id)->count();
+                        return Url::where('certificate_id', '=', $record->id)->count();
                     }),
             ])
             ->filters([
@@ -84,5 +86,4 @@ class CertificateResource extends Resource
             'edit' => Pages\EditCertificate::route('/{record}/edit'),
         ];
     }
-
 }

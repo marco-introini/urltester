@@ -14,5 +14,4 @@ class CreateCertificate extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
 }

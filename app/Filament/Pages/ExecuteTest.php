@@ -31,7 +31,8 @@ class ExecuteTest extends Page
         $url = Url::find($this->url);
 
         if (is_null($url)) {
-            $this->output = "Please select an URL";
+            $this->output = 'Please select an URL';
+
             return;
         }
 
@@ -42,7 +43,6 @@ class ExecuteTest extends Page
         $this->output = htmlentities($testerService->executeTest());
 
         $this->status = Test::latest('id')->first()->response_ok;
-
     }
 
     protected function getFormSchema(): array
@@ -60,5 +60,4 @@ class ExecuteTest extends Page
 
         ];
     }
-
 }

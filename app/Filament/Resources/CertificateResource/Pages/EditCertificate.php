@@ -14,5 +14,4 @@ class EditCertificate extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
-
 }

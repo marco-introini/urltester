@@ -14,7 +14,9 @@ class TestResource extends Resource
     protected static ?string $model = Test::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-trending-up';
+
     protected static ?string $navigationLabel = 'Test Results';
+
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
@@ -45,17 +47,17 @@ class TestResource extends Resource
                     ->colors([
                         'danger' => 0,
                         'success' => 1,
-                        ])
+                    ])
                     ->enum([
-                        false => "Failed",
-                        true => "Success",
+                        false => 'Failed',
+                        true => 'Success',
                     ])
                     ->label('Success'),
             ])
             ->filters([
                 //
             ])
-            ->defaultSort('request_date','desc');
+            ->defaultSort('request_date', 'desc');
     }
 
     public static function getRelations(): array

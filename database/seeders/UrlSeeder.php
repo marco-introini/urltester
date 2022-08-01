@@ -13,7 +13,7 @@ class UrlSeeder extends Seeder
             'name' => 'Example Url',
             'certificate_id' => null,
             'url' => 'http://www.thomas-bayer.com/axis2/services/BLZService',
-            'request' => 'WRONG SOAP'
+            'request' => 'WRONG SOAP',
         ]);
     }
 }

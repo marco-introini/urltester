@@ -17,5 +17,4 @@ class Test extends Model
     {
         return $this->belongsTo(Url::class);
     }
-
 }

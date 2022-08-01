@@ -18,7 +18,9 @@ class UrlResource extends Resource
     protected static ?string $model = Url::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
+
     protected static ?string $navigationLabel = 'Site Urls';
+
     protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
@@ -26,7 +28,7 @@ class UrlResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Forms\Components\TextInput::make('name')->unique(ignorable: fn(?Url $record): ?Url => $record
+                Forms\Components\TextInput::make('name')->unique(ignorable: fn (?Url $record): ?Url => $record
                 )->required(),
                 Forms\Components\TextInput::make('url')
                     ->url()
@@ -58,7 +60,7 @@ class UrlResource extends Resource
                     ->label('Request to be sent to URL'),
                 Forms\Components\Textarea::make('expected_response')
                     ->nullable()
-                    ->label("Expected Response (will be checked as substring)"),
+                    ->label('Expected Response (will be checked as substring)'),
             ]);
     }
 
@@ -70,20 +72,19 @@ class UrlResource extends Resource
                 Tables\Columns\TextColumn::make('service_type'),
                 Tables\Columns\TextColumn::make('certificate')
                     ->getStateUsing(function (Url $record) {
-                        if (!is_null($record->certificate)) {
+                        if (! is_null($record->certificate)) {
                             return $record->certificate->name;
+                        } else {
+                            return 'No Certificate Used';
                         }
-                            else {
-                                return "No Certificate Used";
-                            }
-                }),
+                    }),
             ])
             ->filters([
                 //
             ])
             ->pushActions([
                 Tables\Actions\LinkAction::make('delete')
-                    ->action(fn(Url $record) => $record->delete())
+                    ->action(fn (Url $record) => $record->delete())
                     ->requiresConfirmation()
                     ->color('danger'),
             ]);
@@ -104,5 +105,4 @@ class UrlResource extends Resource
             'edit' => Pages\EditUrl::route('/{record}/edit'),
         ];
     }
-
 }

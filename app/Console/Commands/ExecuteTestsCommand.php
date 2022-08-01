@@ -14,10 +14,9 @@ class ExecuteTestsCommand extends Command
 
     public function handle()
     {
-        foreach ( Url::all() as $url) {
-            echo "Executing ".$url->name.PHP_EOL;
+        foreach (Url::all() as $url) {
+            echo 'Executing '.$url->name.PHP_EOL;
             (new UrlTester($url))->executeTest();
-        };
-
+        }
     }
 }

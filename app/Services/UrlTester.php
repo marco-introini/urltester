@@ -13,12 +13,17 @@ use Illuminate\Support\Facades\Storage;
 class UrlTester
 {
     private CurlHandle $curlHandle;
+
     private string $response;
+
     private string $beginTime;
+
     private string $endTime;
 
     private string $curlInfo;
+
     private string $requestHeaders;
+
     private string $certificates;
 
     public function __construct(
@@ -44,7 +49,7 @@ class UrlTester
     private function setCertificates(): void
     {
         // CA Certificate
-        if (!is_null($this->url->certificate->ca_certificate)) {
+        if (! is_null($this->url->certificate->ca_certificate)) {
             curl_setopt(
                 $this->curlHandle,
                 CURLOPT_CAINFO,
@@ -54,7 +59,7 @@ class UrlTester
         }
 
         // Authentication keys (must be provided both public and private key
-        if (!is_null($this->url->certificate->private_key) && !is_null($this->url->certificate->public_key)) {
+        if (! is_null($this->url->certificate->private_key) && ! is_null($this->url->certificate->public_key)) {
             curl_setopt(
                 $this->curlHandle,
                 CURLOPT_SSLKEY,
@@ -83,31 +88,29 @@ class UrlTester
         }
 
         // default headers
-        $headers = array(
-            "Cache-Control: no-cache",
-            "Pragma: no-cache",
-            "Content-length: ".strlen($this->url->request),
-        );
+        $headers = [
+            'Cache-Control: no-cache',
+            'Pragma: no-cache',
+            'Content-length: '.strlen($this->url->request),
+        ];
 
         if ($this->url->service_type == ServiceTypeEnum::SOAP) {
-            $headers[] = "Content-type: text/xml;charset=\"utf-8\"";
-            $headers[] = "Accept: text/xml";
-            if (!is_null($this->url->soap_action)) {
-                $headers[] = "SOAPAction: ".$this->url->soap_action;
+            $headers[] = 'Content-type: text/xml;charset="utf-8"';
+            $headers[] = 'Accept: text/xml';
+            if (! is_null($this->url->soap_action)) {
+                $headers[] = 'SOAPAction: '.$this->url->soap_action;
             }
         }
         if ($this->url->service_type == ServiceTypeEnum::REST) {
-            $headers[] = "Content-type: application/json;charset=\"utf-8\"";
-            $headers[] = "Accept: application/json";
+            $headers[] = 'Content-type: application/json;charset="utf-8"';
+            $headers[] = 'Accept: application/json';
         }
 
         curl_setopt($this->curlHandle, CURLOPT_HTTPHEADER, $headers);
 
-        if ($this->url->method != MethodEnum::POST ) {
+        if ($this->url->method != MethodEnum::POST) {
             curl_setopt($this->curlHandle, CURLOPT_CUSTOMREQUEST, $this->url->method->value);
-        }
-        else
-        {
+        } else {
             curl_setopt($this->curlHandle, CURLOPT_POST, true);
         }
         curl_setopt($this->curlHandle, CURLOPT_POSTFIELDS, $this->url->request);
@@ -118,15 +121,16 @@ class UrlTester
 
         curl_close($this->curlHandle);
 
-        ray("CURL object", $this->curlHandle)->red();
+        ray('CURL object', $this->curlHandle)->red();
 
-        if (!$result) {
+        if (! $result) {
             $this->response = curl_error($this->curlHandle);
             $this->saveTestResult();
+
             return $this->response;
         }
 
-        ray("Result form calling URL", $result);
+        ray('Result form calling URL', $result);
 
         if ($this->url->service_type == ServiceTypeEnum::SOAP) {
             $dom = new DOMDocument('1.0');
@@ -134,9 +138,8 @@ class UrlTester
             $dom->formatOutput = true;
             $dom->loadXML($result);
             $this->response = $dom->saveXML();
-        }
-        else {
-            $this->response = json_encode(json_decode($result),JSON_PRETTY_PRINT);
+        } else {
+            $this->response = json_encode(json_decode($result), JSON_PRETTY_PRINT);
         }
 
         $version = curl_version();
@@ -178,5 +181,4 @@ EOD;
             'request_headers' => $this->requestHeaders,
         ]);
     }
-
 }

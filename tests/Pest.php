@@ -13,7 +13,6 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
 use function Pest\Laravel\actingAs;
 
 uses(Tests\TestCase::class)->in('Feature');
