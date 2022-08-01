@@ -33,3 +33,19 @@ database-backup:
 
 database-restore:
 	/Users/Shared/DBngin/mysql/8.0.27/bin/mysql -uroot -S /tmp/mysql_3306.sock urltester < database_backup.sql
+
+format_code:
+	clear
+	./vendor/bin/pint
+
+update:
+	@echo "Current Laravel Version"
+	php artisan --version
+	@echo "\nUpdating..."
+	composer update
+	php artisan config:clear
+	php artisan route:clear
+	php artisan view:clear
+	php artisan livewire:discover
+	@echo "UPDATED Laravel Version"
+	php artisan --version
