@@ -6,6 +6,7 @@ recreate: database-backup
 	rm -f storage/app/certificates/private/*
 	rm -f storage/app/certificates/public/*
 	php artisan migrate:fresh --seed
+	php artisan make:filament-user
 
 check:
 	clear
