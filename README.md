@@ -24,7 +24,7 @@ It uses the cURL functions in PHP.
 - update the user setting is_admin field to true
 - execute `composer install`
 - execute `npm install`
-- execute `npm run production`
+- execute `npm run build`
 - modify the Makefile according to your needs
 
 ## Usage
