@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := check
 
-recreate: database-backup
+recreate:
 	clear
 	rm -f storage/app/certificates/ca/*
 	rm -f storage/app/certificates/private/*
@@ -16,24 +16,26 @@ test:
 	clear
 	./vendor/bin/pest
 
-deploy:
+production:
 	clear
-	@echo "To be defined"
+	composer install
+	npm install
+	npm run build
+	php artisan storage:link
 
 execute:
 	php artisan urltester:execute
 
-clean:
-	rm -f database_backup.sql
+clear:
 	php artisan config:clear
 	php artisan route:clear
 	php artisan view:clear
 
-database-backup:
-	/Users/Shared/DBngin/mysql/8.0.27/bin/mysqldump -uroot -S /tmp/mysql_3306.sock urltester > database_backup.sql
+clear_all: clear
+	rm -f database_backup.sql
 
-database-restore:
-	/Users/Shared/DBngin/mysql/8.0.27/bin/mysql -uroot -S /tmp/mysql_3306.sock urltester < database_backup.sql
+backup:
+	php artisan backup:run
 
 format_code:
 	clear
