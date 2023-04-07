@@ -1,27 +1,37 @@
 .DEFAULT_GOAL := check
 
 recreate:
-	clear
+	php artisan migrate:fresh --seed
+	mysql -u root -h 127.0.0.1 < storage/sql/certificates.sql
+	mysql -u root -h 127.0.0.1 < storage/sql/urls.sql
+
+check:
+	./vendor/bin/phpstan analyse
+
+delete_certificates:
 	rm -f storage/app/certificates/ca/*
 	rm -f storage/app/certificates/private/*
 	rm -f storage/app/certificates/public/*
-	php artisan migrate:fresh --seed
-	php artisan make:filament-user
-
-check:
-	clear
-	./vendor/bin/phpstan analyse
 
 test:
-	clear
 	./vendor/bin/pest
 
-production:
-	clear
+first_production:
 	composer install
 	npm install
 	npm run build
 	php artisan storage:link
+
+production:
+	php artisan down
+	git pull
+	composer install --prefer-dist --optimize-autoloader
+	php artisan migrate
+	npm install
+	npm run build
+	#uncomment if using queues
+	#php artisan queue:restart
+	php artisan up
 
 execute:
 	php artisan urltester:execute
@@ -38,7 +48,6 @@ backup:
 	php artisan backup:run
 
 format_code:
-	clear
 	./vendor/bin/pint
 
 update:

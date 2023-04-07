@@ -18,14 +18,15 @@ It uses the cURL functions in PHP.
 
 - clone the repository
 - create database
-- create a .env file 
-- run migrations: `php artisan migrate:fresh`
-- create a user with `php artisan make:filament-user`
-- update the user setting is_admin field to true
+- create a .env file
 - execute `composer install`
 - execute `npm install`
 - execute `npm run build`
 - modify the Makefile according to your needs
+
+### Login
+
+The default user is email 'mint.dev@pm.me' with password 'password'
 
 ## Usage
 

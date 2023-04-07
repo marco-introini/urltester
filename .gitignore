@@ -25,3 +25,5 @@ yarn-error.log
 database_backup.sql
 
 
+/.env.production
+/storage/sql/
