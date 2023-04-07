@@ -24,9 +24,9 @@ class UrlTester
 
     private string $requestHeaders;
 
-    private string $serverCertificates;
+    private string $serverCertificates = "";
 
-    private string $requestCertificate;
+    private string $requestCertificate = "";
 
     public function __construct(
         public Url $url
