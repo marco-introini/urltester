@@ -15,9 +15,12 @@ class CreateTestsTable extends Migration
             $table->string('called_url');
             $table->text('request')->nullable();
             $table->timestamp('request_date')->nullable();
+            $table->text('request_headers')->nullable();
+            $table->text('request_certificates')->nullable();
             $table->text('response')->nullable();
-            $table->boolean('expected_response')->nullable();
+            $table->text('expected_response')->nullable();
             $table->timestamp('response_date')->nullable();
+            $table->text('server_certificates')->nullable();
             $table->bigInteger('response_time')->nullable();
             $table->boolean('response_ok')->default(true);
             $table->text('curl_info')->nullable();

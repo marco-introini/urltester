@@ -20,11 +20,13 @@ class UrlTester
 
     private string $endTime;
 
-    private string $curlInfo;
+    private array $curlInfo;
 
     private string $requestHeaders;
 
-    private string $certificates;
+    private string $serverCertificates;
+
+    private string $requestCertificate;
 
     public function __construct(
         public Url $url
@@ -49,7 +51,7 @@ class UrlTester
     private function setCertificates(): void
     {
         // CA Certificate
-        if (! is_null($this->url->certificate->ca_certificate)) {
+        if (!is_null($this->url->certificate->ca_certificate)) {
             curl_setopt(
                 $this->curlHandle,
                 CURLOPT_CAINFO,
@@ -59,7 +61,7 @@ class UrlTester
         }
 
         // Authentication keys (must be provided both public and private key
-        if (! is_null($this->url->certificate->private_key) && ! is_null($this->url->certificate->public_key)) {
+        if (!is_null($this->url->certificate->private_key) && !is_null($this->url->certificate->public_key)) {
             curl_setopt(
                 $this->curlHandle,
                 CURLOPT_SSLKEY,
@@ -72,10 +74,12 @@ class UrlTester
             );
             // use this for Password protected private Key
             //curl_setopt($this->curlHandle, CURLOPT_SSLCERTPASSWD, "");
+
+            $this->requestCertificate = $this->url->certificate->name;
         }
 
         // to disable CA verification
-        curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, false);
+        //curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, false);
     }
 
     public function executeTest(): string
@@ -97,7 +101,7 @@ class UrlTester
         if ($this->url->service_type == ServiceTypeEnum::SOAP) {
             $headers[] = 'Content-type: text/xml;charset="utf-8"';
             $headers[] = 'Accept: text/xml';
-            if (! is_null($this->url->soap_action)) {
+            if (!is_null($this->url->soap_action)) {
                 $headers[] = 'SOAPAction: '.$this->url->soap_action;
             }
         }
@@ -123,7 +127,7 @@ class UrlTester
 
         ray('CURL object', $this->curlHandle)->red();
 
-        if (! $result) {
+        if (!$result) {
             $this->response = curl_error($this->curlHandle);
             $this->saveTestResult();
 
@@ -142,18 +146,10 @@ class UrlTester
             $this->response = json_encode(json_decode($result), JSON_PRETTY_PRINT);
         }
 
-        $version = curl_version();
-        extract(curl_getinfo($this->curlHandle));
-        $this->curlInfo = <<<EOD
-Code...: $http_code ($redirect_count redirect(s) in $redirect_time secs)
-Content: $content_type Size: $download_content_length (Own: $size_download) Filetime: $filetime
-Time...: $total_time Start @ $starttransfer_time (DNS: $namelookup_time Connect: $connect_time Request: $pretransfer_time)
-Speed..: Down: $speed_download (avg.) Up: $speed_upload (avg.)
-Curl...: v{$version['version']}
-EOD;
+        $this->curlInfo = curl_getinfo($this->curlHandle);
 
-        $this->requestHeaders = $request_header;
-        $this->certificates = json_encode($certinfo);
+        $this->requestHeaders = curl_getinfo($this->curlHandle,CURLINFO_HEADER_OUT);
+        $this->serverCertificates = json_encode(curl_getinfo($this->curlHandle,CURLINFO_CERTINFO));
         $this->saveTestResult();
 
         return $this->response;
@@ -177,7 +173,8 @@ EOD;
             'curl_info' => $this->curlInfo,
             'called_url' => $this->url->url,
             'expected_response' => $this->url->expected_response,
-            'certificates_used' => $this->certificates,
+            'server_certificates' => $this->serverCertificates,
+            'request_certificates' => $this->requestCertificate,
             'request_headers' => $this->requestHeaders,
         ]);
     }

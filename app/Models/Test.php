@@ -10,7 +10,7 @@ class Test extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'certificates_used' => 'json',
+        'curl_info' => 'json',
     ];
 
     public function url(): ?BelongsTo
