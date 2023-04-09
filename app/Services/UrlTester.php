@@ -51,7 +51,7 @@ class UrlTester
     private function setCertificates(): void
     {
         // CA Certificate
-        if (!is_null($this->url->certificate->ca_certificate)) {
+        if (!is_null($this->url?->certificate?->ca_certificate)) {
             curl_setopt(
                 $this->curlHandle,
                 CURLOPT_CAINFO,
@@ -125,16 +125,12 @@ class UrlTester
 
         curl_close($this->curlHandle);
 
-        ray('CURL object', $this->curlHandle)->red();
-
         if (!$result) {
             $this->response = curl_error($this->curlHandle);
             $this->saveTestResult();
 
             return $this->response;
         }
-
-        ray('Result form calling URL', $result);
 
         if ($this->url->service_type == ServiceTypeEnum::SOAP) {
             $dom = new DOMDocument('1.0');

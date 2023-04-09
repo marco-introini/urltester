@@ -28,11 +28,14 @@ class UrlResource extends Resource
         return $form
             ->columns(1)
             ->schema([
-                Forms\Components\TextInput::make('name')->unique(ignorable: fn (?Url $record): ?Url => $record
-                )->required(),
+                Forms\Components\TextInput::make('name')
+                    ->unique(ignoreRecord: true)
+                    ->required()
+                    ->columnSpan(2),
                 Forms\Components\TextInput::make('url')
                     ->url()
-                    ->required(),
+                    ->required()
+                    ->columnSpan(2),
                 Forms\Components\Select::make('service_type')
                     ->label('Service Type')
                     ->options(ServiceTypeEnum::class)
@@ -43,25 +46,33 @@ class UrlResource extends Resource
                     ->options(MethodEnum::class)
                     ->default(MethodEnum::POST)
                     ->required(),
-                Forms\Components\TextInput::make('soap_action'),
                 Forms\Components\Select::make('certificate_id')
+                    ->relationship('certificate', 'name')
                     ->label('Certificates')
-                    ->options(Certificate::all()->pluck('name', 'id'))
                     ->searchable()
                     ->nullable(),
-                Forms\Components\Repeater::make('headers')->schema([
-                    Forms\Components\TextInput::make('name')->required(),
-                    Forms\Components\TextInput::make('value')->required(),
-                ])->label('Header used to call the URL')
-                    ->nullable()
-                    ->default(null),
+                Forms\Components\Section::make('Headers')
+                    ->schema([
+                        Forms\Components\TextInput::make('soap_action'),
+                        Forms\Components\Repeater::make('headers')
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->required(),
+                                Forms\Components\TextInput::make('value')
+                                    ->required(),
+                            ])->label('Header used to call the URL')
+                            ->nullable()
+                            ->default(null),
+                    ]),
                 Forms\Components\Textarea::make('request')
                     ->required()
-                    ->label('Request to be sent to URL'),
+                    ->label('Request to be sent to URL')
+                    ->columnSpanFull(),
                 Forms\Components\Textarea::make('expected_response')
                     ->nullable()
-                    ->label('Expected Response (will be checked as substring)'),
-            ]);
+                    ->label('Expected Response (will be checked as substring)')
+                    ->columnSpanFull(),
+            ])->columns(2);
     }
 
     public static function table(Table $table): Table
@@ -70,23 +81,13 @@ class UrlResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name'),
                 Tables\Columns\TextColumn::make('service_type'),
-                Tables\Columns\TextColumn::make('certificate')
-                    ->getStateUsing(function (Url $record) {
-                        if (! is_null($record->certificate)) {
-                            return $record->certificate->name;
-                        } else {
-                            return 'No Certificate Used';
-                        }
-                    }),
+                Tables\Columns\TextColumn::make('certificate.name'),
             ])
             ->filters([
                 //
             ])
-            ->pushActions([
-                Tables\Actions\LinkAction::make('delete')
-                    ->action(fn (Url $record) => $record->delete())
-                    ->requiresConfirmation()
-                    ->color('danger'),
+            ->actions([
+                Tables\Actions\DeleteAction::make(),
             ]);
     }
 

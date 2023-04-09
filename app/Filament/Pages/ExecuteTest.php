@@ -18,15 +18,15 @@ class ExecuteTest extends Page
 
     protected static ?int $navigationSort = 3;
 
-    public $url;
+    public string $url;
 
-    public $output;
+    public string $output;
 
-    public $status;
+    public string $status;
 
-    public $testName;
+    public string $testName;
 
-    public function submit(Request $request)
+    public function submit(Request $request): void
     {
         $url = Url::find($this->url);
 
