@@ -42,6 +42,8 @@ class ExecuteTest extends Page
 
         $this->output = htmlentities($testerService->executeTest());
 
+        $testerService->saveResultToTestModel();
+
         $this->status = Test::latest('id')->first()->response_ok;
     }
 

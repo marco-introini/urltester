@@ -12,12 +12,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->foreignIdFor(Url::class);
-            $table->bigInteger('number_requests')->nullable();
-            $table->bigInteger('concurrent_requests')->nullable();
-            $table->bigInteger('number_requests_effective')->nullable();
-            $table->bigInteger('success_number')->nullable();
-            $table->bigInteger('failure_number')->nullable();
-            $table->json('failure_responses')->nullable();
+            $table->smallInteger('number_requests')->nullable();
+            $table->smallInteger('concurrent_requests')->nullable();
             $table->timestamps();
         });
     }

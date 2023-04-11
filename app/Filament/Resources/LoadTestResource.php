@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\LoadTestResource\Pages;
+use App\Filament\Resources\LoadTestResource\RelationManagers\ExecutionsRelationManager;
 use App\Models\LoadTest;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
@@ -32,26 +33,21 @@ class LoadTestResource extends Resource
                     ->relationship('url','name'),
 
                 TextInput::make('number_requests')
-                    ->integer(),
+                    ->label('Number of requests')
+                    ->integer()->minValue(1)->maxValue(100),
 
                 TextInput::make('concurrent_requests')
-                    ->integer(),
-
-                TextInput::make('number_requests_effective')
-                    ->integer(),
-
-                TextInput::make('success_number')
-                    ->integer(),
-
-                TextInput::make('failure_number')
-                    ->integer(),
+                    ->label('Number of concurrent requests')
+                    ->integer()->minValue(1)->maxValue(10),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
+                    ->visibleOn('edit')
                     ->content(fn(?LoadTest $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
                     ->label('Last Modified Date')
+                    ->visibleOn('edit')
                     ->content(fn(?LoadTest $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
             ]);
     }
@@ -63,20 +59,9 @@ class LoadTestResource extends Resource
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
-
                 TextColumn::make('url.name'),
-
                 TextColumn::make('number_requests'),
-
                 TextColumn::make('concurrent_requests'),
-
-                TextColumn::make('number_requests_effective'),
-
-                TextColumn::make('success_number'),
-
-                TextColumn::make('failure_number'),
-
-                TextColumn::make('failure_responses'),
             ]);
     }
 
@@ -92,5 +77,12 @@ class LoadTestResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['name'];
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            ExecutionsRelationManager::class,
+        ];
     }
 }

@@ -14,19 +14,19 @@ class UrlTester
 {
     private CurlHandle $curlHandle;
 
-    private string $response;
+    public string $response;
 
-    private string $beginTime;
+    public string $beginTime;
 
-    private string $endTime;
+    public string $endTime;
 
-    private array $curlInfo;
+    public array $curlInfo;
 
-    private string $requestHeaders;
+    public string $requestHeaders;
 
-    private string $serverCertificates = "";
+    public string $serverCertificates = "";
 
-    private string $requestCertificate = "";
+    public string $requestCertificate = "";
 
     public function __construct(
         public Url $url
@@ -127,7 +127,6 @@ class UrlTester
 
         if (!$result) {
             $this->response = curl_error($this->curlHandle);
-            $this->saveTestResult();
 
             return $this->response;
         }
@@ -146,7 +145,6 @@ class UrlTester
 
         $this->requestHeaders = curl_getinfo($this->curlHandle,CURLINFO_HEADER_OUT);
         $this->serverCertificates = json_encode(curl_getinfo($this->curlHandle,CURLINFO_CERTINFO));
-        $this->saveTestResult();
 
         return $this->response;
     }
@@ -156,7 +154,7 @@ class UrlTester
         return str_contains($this->response, $this->url->expected_response);
     }
 
-    private function saveTestResult(): void
+    public function saveResultToTestModel(): void
     {
         Test::create([
             'url_id' => $this->url->id,
