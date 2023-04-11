@@ -21,6 +21,10 @@ class LoadTestResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
+    protected static ?int $navigationSort = 5;
+
+    protected static ?string $navigationIcon = 'heroicon-o-chevron-double-right';
+
     public static function form(Form $form): Form
     {
         return $form

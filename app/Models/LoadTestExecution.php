@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class LoadTestExecution extends Model
 {
 
+    protected $guarded = [];
+
     protected $casts = [
         'executed_at' => 'datetime',
         'status' => ExecutionStatusEnum::class,

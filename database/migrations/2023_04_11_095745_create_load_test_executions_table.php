@@ -11,6 +11,7 @@ return new class extends Migration {
         Schema::create('load_test_executions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(LoadTest::class);
+            $table->timestamp('scheduled_at')->nullable();
             $table->timestamp('executed_at')->nullable();
             $table->string('status')->default(\App\Enum\ExecutionStatusEnum::CREATED->value);
             $table->bigInteger('number_requests_effective')->nullable();
