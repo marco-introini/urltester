@@ -19,13 +19,17 @@
         @endphp
     </div>
 
-    <div>
+    <div class="text-3xl text-center">
         @php
             if (!is_null( $status )) {
                 echo "EXECUTION STATUS: ";
                 echo  $status ? "SUCCESS" : "FAILED";
             }
         @endphp
+    </div>
+
+    <div class="text-xl my-3">
+        Test Output
     </div>
 
     <code class="block whitespace-pre overflow-x-scroll">
