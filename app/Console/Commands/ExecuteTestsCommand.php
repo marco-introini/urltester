@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 
 class ExecuteTestsCommand extends Command
 {
-    protected $signature = 'urltester:execute';
+    protected $signature = 'execute:tests';
 
     protected $description = 'Execute every test inside the test database table';
 
@@ -16,7 +16,9 @@ class ExecuteTestsCommand extends Command
     {
         foreach (Url::all() as $url) {
             echo 'Executing '.$url->name.PHP_EOL;
-            (new UrlTester($url))->executeTest();
+            $tester = new UrlTester($url);
+            $tester->executeTest();
+            $tester->saveResultToTestModel();
         }
     }
 }

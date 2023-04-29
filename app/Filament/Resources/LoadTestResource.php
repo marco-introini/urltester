@@ -38,11 +38,19 @@ class LoadTestResource extends Resource
 
                 TextInput::make('number_requests')
                     ->label('Number of requests')
-                    ->integer()->minValue(1)->maxValue(100),
+                    ->required()
+                    ->integer()
+                    ->minValue(1)
+                    ->default(1)
+                    ->maxValue(100),
 
                 TextInput::make('concurrent_requests')
                     ->label('Number of concurrent requests')
-                    ->integer()->minValue(1)->maxValue(10),
+                    ->required()
+                    ->integer()
+                    ->minValue(1)
+                    ->default(1)
+                    ->maxValue(10),
 
                 Placeholder::make('created_at')
                     ->label('Created Date')
@@ -50,7 +58,7 @@ class LoadTestResource extends Resource
                     ->content(fn(?LoadTest $record): string => $record?->created_at?->diffForHumans() ?? '-'),
 
                 Placeholder::make('updated_at')
-                    ->label('Last Modified Date')
+                    ->label('Updated Date')
                     ->visibleOn('edit')
                     ->content(fn(?LoadTest $record): string => $record?->updated_at?->diffForHumans() ?? '-'),
             ]);

@@ -42,11 +42,23 @@ Then define every endpoint you need to test:
 
 ## Command Line
 
+### Tests
+
 If you want to execute all the tests inside the database (url table) simply execute the artisan command
 
+```bash
+php artisan execute:tests
 ```
-php artisan urltester:execute
+
+### Load tests
+
+To execute all scheduled load test simply execute:
+
+```bash
+php artisan execute:load-tests
 ```
+
+This command should be put inside crontab
 
 ## Test
 
