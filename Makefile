@@ -62,3 +62,4 @@ update:
 	php artisan filament:upgrade
 	@echo "UPDATED Laravel Version"
 	php artisan --version
+	npm update
