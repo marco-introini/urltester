@@ -1,5 +1,9 @@
 <?php
 
+beforeEach(function () {
+    \Pest\Laravel\withoutVite();
+});
+
 it('has public page')
     ->get('/')
     ->assertOk();
